@@ -5,8 +5,12 @@ from typing import Optional, Tuple
 from datetime import datetime
 from urllib.parse import urlparse
 import time
+from dotenv import load_dotenv
 
-from .models import PullRequest, FileChange
+from models import PullRequest, FileChange
+
+# Load environment variables from .env file
+load_dotenv()
 
 
 class GitHubClient:

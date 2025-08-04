@@ -40,29 +40,38 @@ def main():
         console.print(f"  Additions: [green]+{pr.additions}[/green]")
         console.print(f"  Deletions: [red]-{pr.deletions}[/red]")
         
-        # Display file changes table
+        # Display ALL file changes table
         if pr.file_changes:
-            console.print("\n[bold yellow]File Changes:[/bold yellow]")
+            console.print("\n[bold yellow]All File Changes:[/bold yellow]")
             table = Table(show_header=True, header_style="bold magenta")
+            table.add_column("#", style="dim", width=4)
             table.add_column("File", style="cyan", no_wrap=True)
             table.add_column("Status", style="yellow")
             table.add_column("Changes", justify="right")
             
-            for file in pr.file_changes[:10]:  # Show first 10 files
+            for idx, file in enumerate(pr.file_changes, 1):
                 changes = f"[green]+{file.additions}[/green] [red]-{file.deletions}[/red]"
-                table.add_row(file.filename, file.status, changes)
-            
-            if len(pr.file_changes) > 10:
-                table.add_row("...", "...", "...")
+                table.add_row(str(idx), file.filename, file.status, changes)
             
             console.print(table)
-        
-        # Show a sample patch
-        if pr.file_changes and pr.file_changes[0].patch:
-            console.print("\n[bold yellow]Sample Patch (first file):[/bold yellow]")
-            syntax = Syntax(pr.file_changes[0].patch[:500] + "..." if len(pr.file_changes[0].patch) > 500 else pr.file_changes[0].patch, 
-                          "diff", theme="monokai", line_numbers=True)
-            console.print(syntax)
+            
+            # Print ALL patches
+            console.print(f"\n[bold yellow]All Patches ({len(pr.file_changes)} files):[/bold yellow]\n")
+            
+            for idx, file in enumerate(pr.file_changes, 1):
+                console.print(f"[bold blue]{'='*80}[/bold blue]")
+                console.print(f"[bold green]File {idx}/{len(pr.file_changes)}:[/bold green] {file.filename}")
+                console.print(f"[bold green]Status:[/bold green] {file.status}")
+                console.print(f"[bold green]Changes:[/bold green] [green]+{file.additions}[/green] [red]-{file.deletions}[/red]")
+                
+                if file.patch:
+                    console.print(f"[bold green]Patch:[/bold green]")
+                    syntax = Syntax(file.patch, "diff", theme="monokai", line_numbers=True)
+                    console.print(syntax)
+                else:
+                    console.print("[dim]No patch available for this file (might be binary or too large)[/dim]")
+                
+                console.print()  # Add spacing between files
             
     except Exception as e:
         console.print(f"[bold red]Error:[/bold red] {str(e)}")

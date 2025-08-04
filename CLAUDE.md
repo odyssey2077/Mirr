@@ -16,7 +16,7 @@ Mirr is a Python CLI tool that automates pull request creation by using existing
 src/
 ├── crawler/      # GitHub API integration, PR data retrieval
 ├── coder/        # Prompt engineering, code editing
-├── model/        # LLM interface (litellm)
+├── llm/        # LLM interface (litellm)
 ├── cli/          # Interactive CLI (prompt-toolkit + Rich)
 ├── utils/        # Shared utilities
 ├── main.py       # Entry point
