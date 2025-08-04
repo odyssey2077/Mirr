@@ -1,7 +1,7 @@
-# Mirr - PR Template-Based Code Generation
+# Mirr - Code Generation by referring to existing PRs
 
 ## Overview
-Mirr is a Python CLI tool that automates pull request creation by using existing PRs as templates. It's designed for enterprise codebases where many PRs follow similar patterns, differing only in constants, experiment IDs, or configuration values.
+Mirr is a Python CLI tool that automates pull request creation by using existing PRs as reference. It's designed for enterprise codebases where many PRs follow similar patterns, differing only in constants, experiment IDs, or configuration values.
 
 ## Core Workflow
 1. **Extract Reference PR**: Parse GitHub PR URL from user input
@@ -15,7 +15,7 @@ Mirr is a Python CLI tool that automates pull request creation by using existing
 ```
 src/
 ├── crawler/      # GitHub API integration, PR data retrieval
-├── coder/        # Prompt engineering, code generation
+├── coder/        # Prompt engineering, code editing
 ├── model/        # LLM interface (litellm)
 ├── cli/          # Interactive CLI (prompt-toolkit + Rich)
 ├── utils/        # Shared utilities
@@ -31,13 +31,4 @@ src/
 - **Language**: Python 3.8+
 
 ## Key Features
-- Template-based PR generation reduces manual work
-- Multi-model support via litellm
-- Interactive CLI for user confirmation
-- Automated git operations and PR creation
-
-## Development Guidelines
-- Prioritize code reuse from reference PRs
-- Maintain clear separation between modules
-- Handle API rate limits gracefully
-- Provide clear user feedback at each step
+- cost-effective: use the library litellm for interacting with the models. track and log the cost / token usage per LLM call.
